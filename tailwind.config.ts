@@ -8,11 +8,23 @@ const config: Config = {
   ],
   theme: {
     extend: {
-      backgroundImage: {
-        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
-        'gradient-conic':
-          'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
+      fontFamily: {
+        sans: ['Noto Sans Thai', "Outfit", "Sarabun", 'sans-serif']
       },
+      colors: {
+        "neutral": "#282B27",
+        "neutral-light": "#3C403A",
+        "success": "#9fde1a",
+        "caution": "#e8af36", 
+        "danger": "#e2592e",
+        "info": "#046fd1",
+        "primary": "#F5F5F5",
+        "indigo": "#1b3386",
+        "highlight": "#5B8e7d",
+        "": "",
+        "": "",
+        "": "",
+      }
     },
   },
   plugins: [],
