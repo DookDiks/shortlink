@@ -1,7 +1,11 @@
 import Logo from "@/components/logo/DookDik";
 import { cn } from "@dookdiks/utils";
 import SetUpForm from "@/components/auth/SignUpForm";
+import { Metadata } from "next";
 
+export const metadata: Metadata = {
+	title:"DookDiks - Sign in"
+}
 
 const SignUpPage = () => {
 	return (
