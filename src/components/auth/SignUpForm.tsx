@@ -55,11 +55,8 @@ const SetUpForm = () => {
 			const axiosRes = await axios.post("/api/auth/signup", data);
 
 			if (axiosRes.status === 200) router.push("/auth/signin");
-
-			setIsSubmitting(false);
 		} catch (error) {
 			if (axios.isAxiosError<{ target: string; message: string }>(error)) {
-				setIsSubmitting(false);
 				const errorMessage = error.response?.data;
 				switch (errorMessage?.target) {
 					case "email":
@@ -79,6 +76,7 @@ const SetUpForm = () => {
 				}
 			}
 		}
+		setIsSubmitting(false);
 	};
 
 	return (
@@ -122,7 +120,9 @@ const SetUpForm = () => {
 					className={cn("mt-4 text-sm text-neutral hover:text-neutral-light")}
 				>
 					<Link href={"/auth/signin"}>
-						Already have an account <span className="font-semibold text-highlight">click</span> here to sign in
+						Already have an account{" "}
+						<span className="font-semibold text-highlight">click</span> here to
+						sign in
 					</Link>
 				</div>
 			</form>

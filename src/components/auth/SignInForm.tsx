@@ -47,10 +47,7 @@ const SetUpForm = () => {
 			const axiosRes = await axios.post("/api/auth/signin", data);
 
 			if (axiosRes.status === 200) router.push("/");
-
-			setIsSubmitting(false);
 		} catch (error) {
-			setIsSubmitting(false);
 			if (axios.isAxiosError<{ target: string; message: string }>(error)) {
 				const errorMessage = error.response?.data;
 				switch (errorMessage?.target) {
@@ -70,6 +67,7 @@ const SetUpForm = () => {
 				}
 			}
 		}
+		setIsSubmitting(false);
 	};
 	return (
 		<>
