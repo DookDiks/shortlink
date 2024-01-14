@@ -42,6 +42,8 @@ const Password = forwardRef<HTMLInputElement, PasswordProps>(
 					{...restProps}
 				/>
 				<button
+					type="button"
+					tabIndex={-1}
 					onClick={togglePassword}
 					className="absolute top-1/2 right-4 -translate-y-1/2"
 				>
