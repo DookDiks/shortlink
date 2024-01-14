@@ -16,9 +16,7 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import axios from "axios";
-import { useRef, useState } from "react";
-import Link from "next/link";
-import { revalidatePath } from "next/cache";
+import { FC, useRef, useState } from "react";
 
 export const addShortLinkFormSchema = z.object({
 	title: z.string().max(50, "Title must be less than 50 characters").optional(),
@@ -31,7 +29,9 @@ export const addShortLinkFormSchema = z.object({
 
 export type AddShortLinkFormSchema = z.infer<typeof addShortLinkFormSchema>;
 
-const AddShortLinkForm = () => {
+const AddShortLinkForm: FC<{ afrerSubmit?: () => void }> = ({
+	afrerSubmit,
+}) => {
 	const {
 		register,
 		handleSubmit,
@@ -45,13 +45,16 @@ const AddShortLinkForm = () => {
 
 	const formRef = useRef<HTMLFormElement>(null);
 
+	const router = useRouter();
+
 	const onSubmit: SubmitHandler<AddShortLinkFormSchema> = async (data) => {
 		setIsSubmitting(true);
 		try {
 			const axiosRes = await axios.post("/api/shortlink", data);
 			if (axiosRes.status === 200) {
 				formRef.current?.reset();
-				revalidatePath("/");
+				router.refresh();
+				afrerSubmit && afrerSubmit();
 			}
 		} catch (error) {
 			if (axios.isAxiosError<{ target: string; message: string }>(error)) {
@@ -96,7 +99,7 @@ const AddShortLinkForm = () => {
 					<ErrorMessage>{errors.title?.message}</ErrorMessage>
 				</FormContainer>
 				<FormContainer>
-					<Label htmlFor="entrypoint">Half back ( optional )</Label>
+					<Label htmlFor="entrypoint">Search parameter ( optional )</Label>
 					<Input
 						id="entrypoint"
 						{...register("entrypoint")}
