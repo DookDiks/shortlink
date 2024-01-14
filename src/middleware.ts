@@ -7,7 +7,21 @@ import { getSession } from '@/utils/session';
 export async function middleware(request: NextRequest) {
   const session = await getSession();
 
-  if (request.nextUrl.pathname.startsWith("/auth") && session.isLogged) {
+  const path = request.nextUrl.pathname;
+
+  const authPaths = [
+    '/auth/signin',
+    '/auth/signup',
+  ]
+
+  type CheckPathProps = {
+    basePath: string;
+    checkPath: string[];
+  }
+  const checkPath = ({ basePath, checkPath }: CheckPathProps): Boolean => checkPath.some((path) => basePath === path);
+
+  if (checkPath({ basePath: path, checkPath: authPaths }) && session.isLogged) {
+    // console.log('is logged');
     return NextResponse.redirect(new URL('/', request.url))
   }
 
