@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import "react-multi-date-picker/styles/layouts/mobile.css"
 import "./globals.css";
 
 export const metadata: Metadata = {

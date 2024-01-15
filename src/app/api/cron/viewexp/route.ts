@@ -1,5 +1,4 @@
 import { prisma } from "@/lib/prisma";
-import { addDays } from "date-fns";
 import { NextResponse } from "next/server";
 
 export async function GET(request: Request) {

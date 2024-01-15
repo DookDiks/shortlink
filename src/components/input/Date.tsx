@@ -2,15 +2,13 @@
 
 import { cn } from "@dookdiks/utils";
 import { ComponentProps, FC } from "react";
-import DatePicker, { registerLocale } from "react-datepicker";
+import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import enAU from "date-fns/locale/en-AU";
 
 const DateInput: FC<ComponentProps<typeof DatePicker>> = ({
 	className,
 	...restProps
 }) => {
-	registerLocale("en-AU", enAU);
 	return (
 		<DatePicker
 			className={cn(
@@ -18,8 +16,6 @@ const DateInput: FC<ComponentProps<typeof DatePicker>> = ({
 				"active:shadow-none",
 				className
 			)}
-			locale={"enAU"}
-			
 			minDate={new Date()}
 			{...restProps}
 		/>
