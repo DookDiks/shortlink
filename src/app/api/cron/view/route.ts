@@ -2,13 +2,13 @@ import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
 
 export async function GET(request: Request) {
-  const expireLinks = await prisma.links.findMany({
+  const history = await prisma.cronHistory.findMany({
     where: {
-      expireAt: {
-        lte: new Date()
+      createdAt: {
+        lte: new Date(Date.now() - 24 * 60 * 60 * 1000)
       }
     }
   })
 
-  return NextResponse.json(expireLinks, { status: 200 });
+  return NextResponse.json(history, { status: 200 });
 }
