@@ -1,18 +1,6 @@
 import { prisma } from '@/lib/prisma';
 import { NextResponse } from 'next/server';
 
-export async function GET(request: Request) {
-  const expireLinks = await prisma.links.findMany({
-    where: {
-      expireAt: {
-        lte: new Date()
-      }
-    }
-  })
-
-  return NextResponse.json(expireLinks, { status: 200 });
-}
-
 
 const getExpireCrons = async () => {
   const history = await prisma.cronHistory.findMany({
@@ -47,7 +35,7 @@ const getExpireLinks = async () => {
   return deleteLinks
 }
 
-export async function DELETE(request: Request) {
+export async function GET(request: Request) {
   if (request.headers.get('Authorization') !== `Bearer ${process.env.CRON_SECRET}`) {
     return NextResponse.json("Unauthorized", { status: 401 });
   }
