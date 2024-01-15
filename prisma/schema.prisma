@@ -21,6 +21,14 @@ model links {
   @@map("links")
 }
 
+model CronHistory {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  linkNumber Int
+  createdAt  DateTime @default(now())
+
+  @@map("cron_history")
+}
+
 model User {
   id            String    @id @default(auto()) @map("_id") @db.ObjectId
   email         String    @unique
