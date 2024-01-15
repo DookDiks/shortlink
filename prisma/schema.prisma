@@ -14,6 +14,7 @@ model links {
   endpoint   String
   entrypoint String   @unique
   createdAt  DateTime @default(now())
+  expireAt   DateTime
 
   user User @relation(fields: [userId], references: [id])
 
