@@ -12,6 +12,7 @@ import LinkEditForm from "@/components/home/LinkEditForm";
 import Button from "@/components/button/Button";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import { format } from "date-fns";
 
 export const Card: FC<links & { url: string }> = ({ url, ...link }) => {
 	const copyHandler = async (text: string) => {
@@ -126,6 +127,12 @@ export const Card: FC<links & { url: string }> = ({ url, ...link }) => {
 						onClick={() => copyHandler(url + "/" + link.entrypoint)}
 					>
 						{url + "/" + link.entrypoint}
+					</div>
+					<div className={cn("font-semibold")}>
+						<p className="flex gap-2 items-center">Expiration date</p>
+					</div>
+					<div className={cn("cursor-pointer")}>
+						{format(link.expireAt, 'dd MMMM yyyy')}
 					</div>
 				</div>
 			</div>

@@ -1,4 +1,5 @@
 import { prisma } from '@/lib/prisma';
+import { addDays } from 'date-fns';
 import { NextResponse } from 'next/server';
 
 
@@ -6,7 +7,7 @@ const getExpireCrons = async () => {
   const history = await prisma.cronHistory.findMany({
     where: {
       createdAt: {
-        lte: new Date(Date.now() - 24 * 60 * 60 * 1000)
+        lte: addDays(new Date(), -30)
       }
     }
   })

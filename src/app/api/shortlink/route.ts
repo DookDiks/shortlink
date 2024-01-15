@@ -9,6 +9,8 @@ export async function POST(request: Request) {
 
   if (!endpoint) return Response.json({ target: "endpoint", message: "Missing endpoint" }, { status: 400 })
 
+  console.log(endpoint, entrypoint, title, expireDate);
+
   const session = await getSession()
 
   if (!session.isLogged) {

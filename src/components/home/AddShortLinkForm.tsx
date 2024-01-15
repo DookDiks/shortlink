@@ -18,6 +18,7 @@ import * as z from "zod";
 import axios from "axios";
 import { FC, useRef, useState } from "react";
 import DateInput from "@/components/input/Date";
+import { addDays, format, addMonths } from "date-fns";
 
 export const addShortLinkFormSchema = z.object({
 	title: z.string().max(50, "Title must be less than 50 characters").optional(),
@@ -48,7 +49,7 @@ const AddShortLinkForm: FC<{ afrerSubmit?: () => void }> = ({
 	} = useForm<AddShortLinkFormSchema>({
 		resolver: zodResolver(addShortLinkFormSchema),
 		defaultValues: {
-			expireDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
+			expireDate: addMonths(new Date(), 1),
 		},
 	});
 
@@ -119,36 +120,31 @@ const AddShortLinkForm: FC<{ afrerSubmit?: () => void }> = ({
 					<ErrorMessage>{errors.entrypoint?.message}</ErrorMessage>
 				</FormContainer>
 
-				<FormContainer>
-					<Label htmlFor="entrypoint">Expire date</Label>
-					<Controller
-						name="expireDate"
-						rules={{
-							required: true,
-							min: new Date().toISOString().substring(0, 10),
-						}}
-						render={({ field: { onChange, name, value } }) => {
-							const test = new Date();
-							return (
+				<Controller
+					name="expireDate"
+					render={({
+						field: { onChange, name, value },
+						fieldState: { error },
+					}) => {
+						return (
+							<FormContainer>
+								<Label htmlFor="entrypoint">Expire date</Label>
 								<DateInput
 									required
 									name={name}
-									value={value}
-									minDate={new Date()}
+									value={format(addDays(value, 0), "yyyy-MM-dd")}
+									minDate={addDays(new Date(), 1)}
 									id="entrypoint"
-									placeholder="Expiration date"
 									onChange={(date) => {
 										onChange(date);
 									}}
-									format={"MM/DD/YYYY"}
 								/>
-							);
-						}}
-						control={control}
-					/>
-
-					<ErrorMessage>{errors.entrypoint?.message}</ErrorMessage>
-				</FormContainer>
+								<ErrorMessage>{error?.message}</ErrorMessage>
+							</FormContainer>
+						);
+					}}
+					control={control}
+				/>
 				<Button
 					className={cn("w-full mt-6")}
 					type="submit"

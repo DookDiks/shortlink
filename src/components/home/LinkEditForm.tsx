@@ -14,6 +14,7 @@ import { cn } from "@dookdiks/utils";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import DateInput from "@/components/input/Date";
+import { addDays, format } from "date-fns";
 
 export const editShortLinkFormSchema = z.object({
 	title: z
@@ -51,7 +52,7 @@ const LinkEditForm: FC<{ link: links; afrerSubmit?: () => void }> = ({
 			title: link.title,
 			endpoint: link.endpoint,
 			entrypoint: link.entrypoint,
-			expireDate: new Date(link.expireAt),
+			expireDate: addDays(link.expireAt, 0),
 		},
 	});
 
@@ -123,42 +124,38 @@ const LinkEditForm: FC<{ link: links; afrerSubmit?: () => void }> = ({
 				/>
 				<ErrorMessage>{errors.entrypoint?.message}</ErrorMessage>
 			</FormContainer>
-			<FormContainer>
-				<Label htmlFor="entrypoint">Expire date</Label>
-				<Controller
-					name="expireDate"
-					rules={{
-						required: true,
-						min: new Date().toISOString().substring(0, 10),
-					}}
-					render={({ field: { onChange, name, value } }) => {
-						const test = new Date();
-						return (
+			<Controller
+				name="expireDate"
+				render={({
+					field: { onChange, name, value },
+					fieldState: { error },
+				}) => {
+					return (
+						<FormContainer>
+							<Label htmlFor="entrypoint">Expire date</Label>
 							<DateInput
 								required
 								name={name}
-								value={value}
-								minDate={new Date()}
+								value={format(addDays(value, 0), "yyyy-MM-dd")}
+								minDate={addDays(new Date(), 1)}
 								id="entrypoint"
-								placeholder="Expiration date"
 								onChange={(date) => {
 									onChange(date);
 								}}
-								format={"MM/DD/YYYY"}
 							/>
-						);
-					}}
-					control={control}
-				/>
+							<ErrorMessage>{error?.message}</ErrorMessage>
+						</FormContainer>
+					);
+				}}
+				control={control}
+			/>
 
-				<ErrorMessage>{errors.entrypoint?.message}</ErrorMessage>
-			</FormContainer>
 			<Button
 				className={cn("w-full mt-6")}
 				type="submit"
 				disabled={isSubmitting}
 			>
-				{!isSubmitting ? "Create short link" : "Creating short link..."}
+				{!isSubmitting ? "Save" : "Saving..."}
 			</Button>
 		</form>
 	);
