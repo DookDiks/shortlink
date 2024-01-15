@@ -93,7 +93,6 @@ export const Card: FC<links & { url: string }> = ({ url, ...link }) => {
 						<button onClick={toggleModel}>
 							<FiEdit className="h-auto w-5" />
 						</button>
-						{/* TODO - Impliment delete function */}
 						<button onClick={toggleDelete}>
 							<AiOutlineDelete className="h-auto w-6" />
 						</button>

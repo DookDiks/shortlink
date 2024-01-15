@@ -5,7 +5,7 @@ import { generateRandomString } from '@/utils/generateRandomString';
 
 
 export async function POST(request: Request) {
-  const { endpoint, entrypoint, title } = await request.json() as AddShortLinkFormSchema
+  const { endpoint, entrypoint, title, expireDate } = await request.json() as AddShortLinkFormSchema
 
   if (!endpoint) return Response.json({ target: "endpoint", message: "Missing endpoint" }, { status: 400 })
 
@@ -21,6 +21,7 @@ export async function POST(request: Request) {
       endpoint,
       entrypoint: entrypoint ? entrypoint : generateRandomString(6),
       title: title ? title : "untitle",
+      expireAt: expireDate
     }
   })
 
@@ -28,7 +29,7 @@ export async function POST(request: Request) {
 }
 
 export async function PATCH(request: Request) {
-  const { endpoint, entrypoint, title, id } = await request.json() as AddShortLinkFormSchema & { id: string }
+  const { endpoint, entrypoint, title, id, expireDate } = await request.json() as AddShortLinkFormSchema & { id: string }
 
   if (!endpoint) return Response.json({ target: "endpoint", message: "Missing endpoint" }, { status: 400 })
   if (!id) return Response.json({ target: "id", message: "Missing id" }, { status: 400 })
@@ -48,6 +49,7 @@ export async function PATCH(request: Request) {
       endpoint,
       entrypoint: entrypoint ? entrypoint : generateRandomString(6),
       title: title ? title : "untitle",
+      expireAt: expireDate
     }
   })
 
@@ -72,7 +74,7 @@ export async function DELETE(request: Request) {
 
   if (!link) return Response.json("Invalid id", { status: 400 })
 
-  if (link.id != session.id) {
+  if (link.userId != session.id) {
     return Response.json("Unable to delete others link", { status: 400 })
   }
 

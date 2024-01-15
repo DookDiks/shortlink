@@ -12,19 +12,26 @@ import { cn } from "@dookdiks/utils";
 
 import { useRouter } from "next/navigation";
 
-import { useForm, SubmitHandler } from "react-hook-form";
+import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import axios from "axios";
 import { FC, useRef, useState } from "react";
+import DateInput from "@/components/input/Date";
 
 export const addShortLinkFormSchema = z.object({
 	title: z.string().max(50, "Title must be less than 50 characters").optional(),
-	endpoint: z.string().min(1, "Endpoint is required"),
+	endpoint: z.string().min(1, "Endpoint is required").url("Invalid URL"),
 	entrypoint: z
 		.string()
 		.regex(/^[^/]*$/, "'/' is not allow in this field")
 		.optional(),
+	expireDate: z
+		.date({
+			required_error: "Date is required",
+			invalid_type_error: "Format invalid",
+		})
+		.min(new Date(), "Date must be in the future"),
 });
 
 export type AddShortLinkFormSchema = z.infer<typeof addShortLinkFormSchema>;
@@ -37,8 +44,12 @@ const AddShortLinkForm: FC<{ afrerSubmit?: () => void }> = ({
 		handleSubmit,
 		formState: { errors },
 		setError,
+		control,
 	} = useForm<AddShortLinkFormSchema>({
 		resolver: zodResolver(addShortLinkFormSchema),
+		defaultValues: {
+			expireDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
+		},
 	});
 
 	const [isSubmitting, setIsSubmitting] = useState(false);
@@ -105,6 +116,37 @@ const AddShortLinkForm: FC<{ afrerSubmit?: () => void }> = ({
 						{...register("entrypoint")}
 						placeholder="example"
 					/>
+					<ErrorMessage>{errors.entrypoint?.message}</ErrorMessage>
+				</FormContainer>
+
+				<FormContainer>
+					<Label htmlFor="entrypoint">Expire date</Label>
+					<Controller
+						name="expireDate"
+						rules={{
+							required: true,
+							min: new Date().toISOString().substring(0, 10),
+						}}
+						render={({ field: { onChange, name, value } }) => {
+							const test = new Date();
+							return (
+								<DateInput
+									required
+									name={name}
+									value={value}
+									minDate={new Date()}
+									id="entrypoint"
+									placeholder="Expiration date"
+									onChange={(date) => {
+										onChange(date);
+									}}
+									format={"MM/DD/YYYY"}
+								/>
+							);
+						}}
+						control={control}
+					/>
+
 					<ErrorMessage>{errors.entrypoint?.message}</ErrorMessage>
 				</FormContainer>
 				<Button
