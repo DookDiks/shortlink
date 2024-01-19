@@ -33,3 +33,14 @@ export const distroySession = async () => {
   const session = await getSession();
   session.destroy();
 }
+
+
+// Detail: DNS problem: NXDOMAIN looking up A for sl.redbiiddsun.com - check that a DNS record exists for this domain; no valid AAAA records found for sl.redbiiddsun.com
+
+
+// Started issuing a wildcard SSL/TLS certificate from Let's Encrypt for the domain sl.redbiiddsun.com.
+
+// Please wait while Plesk finishes adding a DNS record with the following parameters:
+// Record type: TXT
+// Domain name: _acme-challenge.sl.redbiiddsun.com
+// Record: MFImcJsOTn4tqmyESRq5d41hAOBOoQsY7SoakyOghGQ
