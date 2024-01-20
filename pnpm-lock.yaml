@@ -5,6 +5,9 @@ settings:
   excludeLinksFromLockfile: false
 
 dependencies:
+  '@dookdiks/error':
+    specifier: ^1.1.0
+    version: 1.1.0
   '@dookdiks/utils':
     specifier: ^2.1.2
     version: 2.1.2
@@ -110,14 +113,14 @@ packages:
     dependencies:
       regenerator-runtime: 0.14.1
 
-  /@dookdiks/error@1.0.3:
-    resolution: {integrity: sha512-Cgs5cXHkTuwAXXBEPAEaUpSFMFG1JlZfiMBSIooI7QjuQ1rK/YpSGzYAQsvKQpq2n+77QsnTRu6upD7Pha7AnQ==}
+  /@dookdiks/error@1.1.0:
+    resolution: {integrity: sha512-q8+DgU8CUvE7ke0xPEPlUQvI/bxXVkUPq7sphqwS4AKW3OGcz0ef0whCuA1WV8LLrA9bjX7M8UlYk9Ocbe3GcA==}
     dev: false
 
   /@dookdiks/utils@2.1.2:
     resolution: {integrity: sha512-OXw7GCMEOJR8ZKsVD/7XlHjQjP1KDXwYEtG7DLvby40BOOL4o/SYwsiJhiqOO+RWt+ZbDCUcLt3zy1aAeC8B4g==}
     dependencies:
-      '@dookdiks/error': 1.0.3
+      '@dookdiks/error': 1.1.0
       clsx: 2.1.0
       tailwind-merge: 2.2.0
     dev: false
