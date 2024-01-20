@@ -21,7 +21,7 @@ export async function POST(request: Request) {
     }
   })).then((user) => user).catch((e) => Response.json("Some error happened in getting user from database", { status: 500 }))
 
-  if (existingUser) return Response.json({ target: "email", message: "User already exists" }, { status: 400 })
+  if (existingUser) return Response.json({ target: "email", message: "User already exists", existingUser }, { status: 400 })
 
   const user = await tryCatch(async () => prisma.user.create({
     data: {
