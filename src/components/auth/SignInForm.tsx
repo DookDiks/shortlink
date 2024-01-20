@@ -62,7 +62,7 @@ const SetUpForm = () => {
 						});
 						break;
 					default:
-						alert("Something went wrong");
+						alert(error.toJSON());
 						break;
 				}
 			}
