@@ -1,7 +1,11 @@
 import bcrypt from 'bcrypt';
 import { prisma } from "@/lib/prisma";
 import { SignUpProps } from '@/components/auth/SignUpForm';
-import { tryCatch } from "@dookdiks/error"
+// import { tryCatch } from "@dookdiks/error"
+
+async function tryCatch<T>(fn: () => Promise<T>) {
+  return fn()
+}
 
 export async function POST(request: Request) {
   const { email, confirmPassword, password } = await request.json() as SignUpProps
@@ -15,17 +19,7 @@ export async function POST(request: Request) {
     where: {
       email
     }
-  }), (e) => { throw Response.json({ error: e, message: "Something went wrong with prisma" }, { status: 500 }) })
-
-  // try {
-  //   const existingUser = await prisma.user.findUnique({
-  //     where: {
-  //       email
-  //     }
-  //   })
-  // } catch (error) {
-  //   return Response.json({ target: "email", message: "Something went wrong" }, { status: 500 })
-  // }
+  })).then((user) => user).catch((e) => Response.json("Some error happened in getting user from database", { status: 500 }))
 
   if (existingUser) return Response.json({ target: "email", message: "User already exists" }, { status: 400 })
 
@@ -34,14 +28,7 @@ export async function POST(request: Request) {
       email,
       password: await bcrypt.hash(password, 10),
     }
-  }), (e) => Response.json({ error: e, message: "Something went wrong with prisma" }, { status: 500 }))
-
-  // const user = await prisma.user.create({
-  //   data: {
-  //     email,
-  //     password: await bcrypt.hash(password, 10),
-  //   }
-  // })
+  })).then((user) => user).catch(() => Response.json("Some error happened in creating user", { status: 500 }))
 
   return Response.json(user, { status: 200 })
 }
