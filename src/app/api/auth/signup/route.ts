@@ -19,7 +19,11 @@ export async function POST(request: Request) {
     where: {
       email
     }
-  })).then((user) => user).catch((e) => Response.json("Some error happened in getting user from database", { status: 500 }))
+  }))
+    .then((user) => user)
+    .catch((e) => Response.json("Some error happened in getting user from database", { status: 500 }))
+
+  console.log(existingUser);
 
   if (existingUser) return Response.json({ target: "email", message: "User already exists", existingUser }, { status: 400 })
 

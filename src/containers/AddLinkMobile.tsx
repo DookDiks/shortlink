@@ -1,9 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import Button from "../button/Button";
-import Model from "../elements/Model";
-import AddShortLinkForm from "./AddShortLinkForm";
+import Button from "../components/button/Button";
+import Model from "../components/elements/Model";
+import AddShortLinkForm from "@/containers/AddShortLinkForm";
 
 const AddLinkMobile = () => {
 	const [showModel, setShowModel] = useState<boolean>(false);

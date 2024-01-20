@@ -8,7 +8,7 @@ import { FiEdit } from "react-icons/fi";
 import { AiOutlineDelete } from "react-icons/ai";
 import Loading from "@/components/elements/Loading";
 import Model from "@/components/elements/Model";
-import LinkEditForm from "@/components/home/LinkEditForm";
+import LinkEditForm from "@/containers/LinkEditForm";
 import Button from "@/components/button/Button";
 import axios from "axios";
 import { useRouter } from "next/navigation";

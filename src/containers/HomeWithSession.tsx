@@ -1,8 +1,8 @@
 import { cn } from "@dookdiks/utils";
 import Button from "@/components/button/Button";
-import AddShortLinkForm from "@/components/home/AddShortLinkForm";
-import AddLinkMobile from "@/components/home/AddLinkMobile";
-import CardDisplayLink from "@/components/home/CardDisplayLink";
+import AddShortLinkForm from "@/containers/AddShortLinkForm";
+import AddLinkMobile from "@/containers/AddLinkMobile";
+import CardDisplayLink from "@/containers/CardDisplayLink";
 import { prisma } from "@/lib/prisma";
 import { getSession } from "@/utils/session";
 import HomeNav from "@/components/nav/HomeNav";

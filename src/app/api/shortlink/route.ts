@@ -1,5 +1,5 @@
 import { prisma } from '@/lib/prisma';
-import { AddShortLinkFormSchema } from "@/components/home/AddShortLinkForm";
+import { AddShortLinkFormSchema } from "@/containers/AddShortLinkForm";
 import { getSession } from '@/utils/session';
 import { generateRandomString } from '@/utils/generateRandomString';
 
