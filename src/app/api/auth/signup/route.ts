@@ -9,10 +9,12 @@ export async function POST(request: Request) {
   if (!password) return Response.json({ target: "password", message: "Missing password" }, { status: 400 })
   if (!confirmPassword) return Response.json({ target: "confirmPassword", message: "Missing confirm password" }, { status: 400 })
 
+  return Response.json("user", { status: 400 })
+
   const existingUser = await prisma.user.findUnique({
     where: {
       email
-    }
+    },
   })
 
   if (existingUser) return Response.json({ target: "email", message: "User already exists" }, { status: 400 })
