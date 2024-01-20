@@ -15,7 +15,7 @@ export async function POST(request: Request) {
     where: {
       email
     }
-  }), (e) => Response.json({ error: e, message: "Something went wrong with prisma" }, { status: 500 }))
+  }), (e) => { throw Response.json({ error: e, message: "Something went wrong with prisma" }, { status: 500 }) })
 
   // try {
   //   const existingUser = await prisma.user.findUnique({

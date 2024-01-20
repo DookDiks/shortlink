@@ -4,7 +4,7 @@ import SetUpForm from "@/components/auth/SignUpForm";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-	title:"DookDiks - Sign in"
+	title:"DookDiks - Sign up"
 }
 
 const SignUpPage = () => {
