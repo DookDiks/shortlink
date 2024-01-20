@@ -71,7 +71,8 @@ const SetUpForm = () => {
 						});
 						break;
 					default:
-						alert(error.toJSON());
+						alert(error);
+						console.error(error);
 						break;
 				}
 			}
