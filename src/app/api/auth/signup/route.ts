@@ -9,23 +9,24 @@ export async function POST(request: Request) {
   if (!password) return Response.json({ target: "password", message: "Missing password" }, { status: 400 })
   if (!confirmPassword) return Response.json({ target: "confirmPassword", message: "Missing confirm password" }, { status: 400 })
 
-  
-  const existingUser = await prisma.user.findUnique({
-    where: {
-      email
-    },
-  })
-  
-  if (existingUser) return Response.json({ target: "email", message: "User already exists" }, { status: 400 })
-  
-  return Response.json("user", { status: 400 })
-  
-  const user = await prisma.user.create({
-    data: {
-      email,
-      password: await bcrypt.hash(password, 10),
-    }
-  })
+  try {
+    const existingUser = await prisma.user.findUnique({
+      where: {
+        email
+      }
+    })
 
-  return Response.json(user, { status: 200 })
+    if (existingUser) return Response.json({ target: "email", message: "User already exists" }, { status: 400 })
+
+    const user = await prisma.user.create({
+      data: {
+        email,
+        password: await bcrypt.hash(password, 10),
+      }
+    })
+
+    return Response.json(user, { status: 200 })
+  } catch (error) {
+    return Response.json({ error }, { status: 500 })
+  }
 }
