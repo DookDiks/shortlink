@@ -1,4 +1,4 @@
-import HomeWithSession from "@/containers/HomeWithSession";
+import HomeWithSession from "@/containers/home/HomeWithSession";
 import { cn } from "@dookdiks/utils";
 
 export default function Home() {

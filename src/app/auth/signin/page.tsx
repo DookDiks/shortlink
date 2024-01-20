@@ -1,6 +1,6 @@
 import Logo from "@/components/logo/DookDik";
 import { cn } from "@dookdiks/utils";
-import SignInForm from "@/components/auth/SignInForm";
+import SignInForm from "@/containers/auth/SignInForm";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {

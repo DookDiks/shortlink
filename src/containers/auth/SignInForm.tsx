@@ -11,40 +11,48 @@ import Button from "@/components/button/Button";
 import Link from "next/link";
 import { useState } from "react";
 
-import { signUp } from "@/actions/authAction";
+import { signIn } from "@/actions/authAction";
 
-import { SignUpSchema, SignUp, SignUpError } from "@/types/SignUpType";
+import { SignIn, SignInError, SignInSchema } from "@/types/SignInType";
+import { redirect } from "next/navigation";
 
-const SignUpForm = () => {
-	const [error, setError] = useState<SignUpError>();
+const SignInForm = () => {
+	const [error, setError] = useState<SignInError>();
+	const [success, setSuccess] = useState(true);
 
 	const clientAction = async (formData: FormData) => {
-		const data = Object.fromEntries(formData.entries()) as SignUp;
+		setSuccess(false);
+		const data = Object.fromEntries(formData.entries()) as SignIn;
 
-		const result = SignUpSchema.safeParse(data);
+		const result = SignInSchema.safeParse(data);
 
 		// NOTE - handle client Error
 		if (!result.success) {
 			const errorFormat = result.error.format();
+			setSuccess(true);
 			return setError({
 				success: false,
 				errors: {
 					email: errorFormat.email?._errors?.[0],
 					password: errorFormat.password?._errors?.[0],
-					confirmPassword: errorFormat.confirmPassword?._errors?.[0],
 				},
 			});
 		}
 
-		const actionResult = await signUp(result.data);
+		const actionResult = await signIn(result.data);
 
 		// NOTE - handle Error
 		if (!actionResult?.success) {
+			setSuccess(true);
+
 			return setError(actionResult);
 		}
 		if (typeof actionResult === "string") {
 			console.log(actionResult);
 		}
+
+		setSuccess(false);
+		redirect("/auth/signin");
 	};
 
 	return (
@@ -62,18 +70,9 @@ const SignUpForm = () => {
 				<Password name="password" id="password" placeholder="Password" />
 				<ErrorMessage>{error?.errors?.password}</ErrorMessage>
 			</FormContainer>
-			<FormContainer>
-				<Label htmlFor="password">Confirm Password</Label>
-				<Password
-					name="confirmPassword"
-					id="confirm-password"
-					placeholder="Confirm Password"
-				/>
-				<ErrorMessage>{error?.errors?.confirmPassword}</ErrorMessage>
-			</FormContainer>
 			{/* TODO - change disable */}
-			<Button disabled={false} type="submit" className="w-full mt-8">
-				Sign up
+			<Button disabled={!success} type="submit" className="w-full mt-8">
+				{success ? "Sign in" : "Signing in..."}
 			</Button>
 			<div className={cn("mt-4 text-sm text-neutral hover:text-neutral-light")}>
 				<Link href={"/auth/signin"}>
@@ -86,4 +85,4 @@ const SignUpForm = () => {
 	);
 };
 
-export default SignUpForm;
+export default SignInForm;

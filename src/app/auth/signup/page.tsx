@@ -1,6 +1,6 @@
 import Logo from "@/components/logo/DookDik";
 import { cn } from "@dookdiks/utils";
-import SetUpForm from "@/containers/SignUpForm";
+import SetUpForm from "@/containers/auth/SignUpForm";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
