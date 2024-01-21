@@ -75,10 +75,10 @@ const SignInForm = () => {
 				{success ? "Sign in" : "Signing in..."}
 			</Button>
 			<div className={cn("mt-4 text-sm text-neutral hover:text-neutral-light")}>
-				<Link href={"/auth/signin"}>
-					Already have an account{" "}
+				<Link href={"/auth/signup"}>
+					Do not have an account{" "}
 					<span className="font-semibold text-highlight">click</span> here to
-					sign in
+					sign up
 				</Link>
 			</div>
 		</form>
