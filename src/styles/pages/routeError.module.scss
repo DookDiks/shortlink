@@ -34,4 +34,8 @@
 	display: flex;
 	flex-direction: column;
 	gap: 0.5rem;
+
+	@include md() {
+		min-width: 25rem;
+	}
 }
