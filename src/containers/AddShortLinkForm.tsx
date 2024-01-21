@@ -95,10 +95,11 @@ const AddShortLinkForm: FC<{ afrerSubmit?: () => void }> = ({
 
 	return (
 		<>
-			<form ref={formRef} onSubmit={handleSubmit(onSubmit)}>
+			<form style={{ width: "100%" }} ref={formRef} onSubmit={handleSubmit(onSubmit)}>
 				<FormContainer>
 					<Label htmlFor="endpoint">Destination</Label>
 					<Input
+						style={{ width: "100%" }}
 						id="endpoint"
 						{...register("endpoint")}
 						placeholder="https://example.com/"
@@ -107,12 +108,18 @@ const AddShortLinkForm: FC<{ afrerSubmit?: () => void }> = ({
 				</FormContainer>
 				<FormContainer>
 					<Label htmlFor="title">Title ( optional )</Label>
-					<Input id="title" {...register("title")} placeholder="Example site" />
+					<Input
+						style={{ width: "100%" }}
+						id="title"
+						{...register("title")}
+						placeholder="Example site"
+					/>
 					<ErrorMessage>{errors.title?.message}</ErrorMessage>
 				</FormContainer>
 				<FormContainer>
 					<Label htmlFor="entrypoint">Search parameter ( optional )</Label>
 					<Input
+						style={{ width: "100%" }}
 						id="entrypoint"
 						{...register("entrypoint")}
 						placeholder="example"
@@ -146,7 +153,7 @@ const AddShortLinkForm: FC<{ afrerSubmit?: () => void }> = ({
 					control={control}
 				/>
 				<Button
-					className={cn("w-full mt-6")}
+					style={{ width: "100%", marginTop: "1.5rem" }}
 					type="submit"
 					disabled={isSubmitting}
 				>

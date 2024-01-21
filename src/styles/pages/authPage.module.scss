@@ -1,0 +1,18 @@
+@import "../variable";
+
+.main {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	min-height: 100dvh;
+	background: $secondary-color;
+	gap: 4rem;
+	padding: 2rem;
+}
+
+.logo {
+	fill: $primary-color;
+	height: auto;
+	width: 14rem;
+}

@@ -104,6 +104,7 @@ const LinkEditForm: FC<{ link: links; afrerSubmit?: () => void }> = ({
 			<FormContainer>
 				<Label htmlFor="endpoint">Destination</Label>
 				<Input
+					style={{ width: "100%" }}
 					id="endpoint"
 					{...register("endpoint")}
 					placeholder="https://example.com/"
@@ -112,12 +113,18 @@ const LinkEditForm: FC<{ link: links; afrerSubmit?: () => void }> = ({
 			</FormContainer>
 			<FormContainer>
 				<Label htmlFor="title">Title</Label>
-				<Input id="title" {...register("title")} placeholder="Example site" />
+				<Input
+					style={{ width: "100%" }}
+					id="title"
+					{...register("title")}
+					placeholder="Example site"
+				/>
 				<ErrorMessage>{errors.title?.message}</ErrorMessage>
 			</FormContainer>
 			<FormContainer>
 				<Label htmlFor="entrypoint">Search parameter</Label>
 				<Input
+					style={{ width: "100%" }}
 					id="entrypoint"
 					{...register("entrypoint")}
 					placeholder="example"
@@ -151,7 +158,7 @@ const LinkEditForm: FC<{ link: links; afrerSubmit?: () => void }> = ({
 			/>
 
 			<Button
-				className={cn("w-full mt-6")}
+				style={{ width: "100%", marginTop: "1.5rem" }}
 				type="submit"
 				disabled={isSubmitting}
 			>

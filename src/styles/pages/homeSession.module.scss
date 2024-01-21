@@ -1,0 +1,84 @@
+@import "../variable";
+@import "../mixins";
+
+.containers {
+	min-height: 100dvh;
+	height: 100vh;
+	color: $primary-color;
+
+	.display {
+		display: grid;
+		height: 100%;
+		gap: 0.5rem;
+		padding: 0;
+		padding-top: 5rem;
+		grid-template-rows: 1fr auto;
+
+		@include md() {
+			padding: 0.5rem;
+			padding-top: 5rem;
+			grid-template-columns: repeat(2, 1fr);
+		}
+	}
+}
+
+.list_container {
+	padding: 0.5rem;
+	height: 100%;
+	min-height: 15rem;
+	border-radius: 0.25rem;
+	display: flex;
+	flex-direction: column;
+	gap: 0.5rem;
+	overflow-y: scroll;
+	border-radius: 0;
+	border: none;
+	border-top: 2px solid $primary-color;
+	border-bottom: 2px solid $primary-color;
+
+	@include md() {
+		border-radius: 0.25rem;
+		border: 2px solid $primary-color;
+	}
+}
+
+.form_container {
+	padding: 0.25rem;
+	border-radius: 0.25rem;
+	display: flex;
+	flex-direction: column;
+	gap: 0.5rem;
+	overflow-y: scroll;
+	border: none;
+	border-top: 2px solid $primary-color;
+	border-radius: 0;
+	height: fit-content;
+
+	@include md() {
+		width: 100%;
+		justify-content: center;
+		align-items: center;
+		border-radius: 0.25rem;
+		height: 100%;
+		min-height: 15rem;
+		border: 2px solid $primary-color;
+	}
+}
+
+.mobile {
+	display: block;
+
+	@include md() {
+		display: none;
+	}
+}
+
+.window {
+	display: none;
+  width: 100%;
+  padding: 0 8rem;
+
+	@include md() {
+		display: block;
+	}
+}

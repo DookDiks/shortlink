@@ -16,6 +16,8 @@ import { signIn } from "@/actions/authAction";
 import { SignIn, SignInError, SignInSchema } from "@/types/SignInType";
 import { redirect } from "next/navigation";
 
+import styles from "@/styles/container/auth.module.scss";
+
 const SignInForm = () => {
 	const [error, setError] = useState<SignInError>();
 	const [success, setSuccess] = useState(true);
@@ -52,14 +54,11 @@ const SignInForm = () => {
 		}
 
 		setSuccess(false);
-		redirect("/auth/signin");
+		redirect("/");
 	};
 
 	return (
-		<form
-			action={clientAction}
-			className={cn("flex flex-col gap-1 px-4 w-full md:w-fit")}
-		>
+		<form action={clientAction} className={cn(styles.formContainer)}>
 			<FormContainer>
 				<Label htmlFor="email">Email</Label>
 				<Input type="email" name="email" id="email" placeholder="Email" />
@@ -71,14 +70,19 @@ const SignInForm = () => {
 				<ErrorMessage>{error?.errors?.password}</ErrorMessage>
 			</FormContainer>
 			{/* TODO - change disable */}
-			<Button disabled={!success} type="submit" className="w-full mt-8">
+			<Button
+				disabled={!success}
+				type="submit"
+				style={{
+					width: "100%",
+					marginTop: "1rem",
+				}}
+			>
 				{success ? "Sign in" : "Signing in..."}
 			</Button>
-			<div className={cn("mt-4 text-sm text-neutral hover:text-neutral-light")}>
+			<div className={cn(styles.formLink)}>
 				<Link href={"/auth/signup"}>
-					Do not have an account{" "}
-					<span className="font-semibold text-highlight">click</span> here to
-					sign up
+					Do not have an account <span>click</span> here to sign up
 				</Link>
 			</div>
 		</form>

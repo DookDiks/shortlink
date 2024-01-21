@@ -2,6 +2,7 @@
 
 import { cn } from "@dookdiks/utils";
 import { ComponentProps, forwardRef } from "react";
+import styles from "@/styles/component/input.module.scss";
 
 const Input = forwardRef<HTMLInputElement, ComponentProps<"input">>(
 	({ className, ...restProps }, ref) => {
@@ -9,11 +10,7 @@ const Input = forwardRef<HTMLInputElement, ComponentProps<"input">>(
 			<input
 				ref={ref}
 				type="text"
-				className={cn(
-					"border-2 rounded outline-none focus:outline-none border-neutral p-2 px-3 w-full md:w-fit md:min-w-[25rem] text-neutral bg-primary text-base",
-					"active:shadow-none",
-					className
-				)}
+				className={cn(styles.inputContainer, styles.input, className)}
 				{...restProps}
 			/>
 		);

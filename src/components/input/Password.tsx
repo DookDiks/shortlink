@@ -9,6 +9,7 @@ import {
 	MouseEvent,
 } from "react";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
+import styles from "@/styles/component/input.module.scss";
 
 type PasswordProps = Omit<ComponentProps<"input">, "type"> & {
 	showPassword?: boolean;
@@ -30,13 +31,13 @@ const Password = forwardRef<HTMLInputElement, PasswordProps>(
 			}
 		};
 		return (
-			<div className="relative md:w-fit">
+			<div className={styles.passwordContainer}>
 				<input
 					ref={ref}
 					type={inputType}
 					className={cn(
-						"border-2 rounded outline-none focus:outline-none border-neutral p-2 px-3 w-full md:w-fit md:min-w-[25rem] text-neutral bg-primary text-base",
-						"active:shadow-none",
+						styles.inputContainer,
+
 						className
 					)}
 					{...restProps}
@@ -45,12 +46,12 @@ const Password = forwardRef<HTMLInputElement, PasswordProps>(
 					type="button"
 					tabIndex={-1}
 					onClick={togglePassword}
-					className="absolute top-1/2 right-4 -translate-y-1/2"
+					className={cn(styles.showPassword)}
 				>
 					{inputType === "password" ? (
-						<AiFillEyeInvisible className="h-5 w-auto" />
+						<AiFillEyeInvisible className={cn(styles.showPasswordIcon)} />
 					) : (
-						<AiFillEye className="h-5 w-auto" />
+						<AiFillEye className={cn(styles.showPasswordIcon)} />
 					)}
 				</button>
 			</div>

@@ -3,20 +3,17 @@ import { cn } from "@dookdiks/utils";
 import { FC } from "react";
 import Button from "@/components/button/Button";
 import Logo from "@/components/logo/DookDik";
+import styles from "@/styles/container/topnav.module.scss";
 
 const HomeNav: FC = () => {
 	return (
-		<nav
-			className={cn(
-				"border-neutral border-b-2 p-2 flex items-center justify-between fixed w-full bg-primary z-10"
-			)}
-		>
-			<div className={cn("flex items-center gap-4")}>
-				<Logo className="h-auto w-14 fill-neutral" />
+		<nav className={cn(styles.nav)}>
+			<div className={cn(styles.nav_logo_container)}>
+				<Logo className={styles.logo} />
 				Short link
 			</div>
 			<form action={signOutAction}>
-				<Button type="submit" className="px-4 py-2">
+				<Button type="submit" style={{ padding: "0.25rem 0.5rem" }}>
 					Sign out
 				</Button>
 			</form>

@@ -1,11 +1,11 @@
 import { cn } from "@dookdiks/utils";
-import Button from "@/components/button/Button";
 import AddShortLinkForm from "@/containers/AddShortLinkForm";
 import AddLinkMobile from "@/containers/AddLinkMobile";
 import CardDisplayLink from "@/containers/CardDisplayLink";
 import { prisma } from "@/lib/prisma";
 import { getSession } from "@/utils/session";
 import HomeNav from "@/components/nav/HomeNav";
+import styles from "@/styles/pages/homeSession.module.scss";
 
 const HomeWithSession = async () => {
 	const session = await getSession();
@@ -17,28 +17,16 @@ const HomeWithSession = async () => {
 	return (
 		<>
 			<HomeNav />
-			<section className={cn("min-h-screen h-screen text-neutral")}>
-				<div
-					className={cn(
-						"flex flex-col lg:grid lg:grid-cols-2 gap-2 p-0 pt-[4.75rem] lg:p-4 lg:pt-20 h-full"
-					)}
-				>
-					<section
-						className={cn(
-							"p-2 h-full min-h-[15rem] border-t-2 border-b-2 lg:border-2 rounded-sm border-neutral flex justify-start items-center flex-col gap-2 overflow-clip overflow-y-auto"
-						)}
-					>
+			<section className={cn(styles.containers)}>
+				<div className={cn(styles.display)}>
+					<section className={cn(styles.list_container)}>
 						<CardDisplayLink links={links} />
 					</section>
-					<section
-						className={cn(
-							"p-2 h-fit lg:h-full w-full bg-primary border-t-2 lg:border-2 lg:rounded-sm border-neutral lg:flex justify-center items-center"
-						)}
-					>
-						<div className="lg:hidden block">
+					<section className={cn(styles.form_container)}>
+						<div className={styles.mobile}>
 							<AddLinkMobile />
 						</div>
-						<div className="hidden lg:block">
+						<div className={styles.window}>
 							<AddShortLinkForm />
 						</div>
 					</section>

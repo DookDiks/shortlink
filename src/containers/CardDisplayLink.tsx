@@ -13,6 +13,9 @@ import Button from "@/components/button/Button";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { format } from "date-fns";
+import ErrorMessage from "@/components/form/ErrorMessage";
+
+import styles from "@/styles/container/linkDisplay.module.scss";
 
 export const Card: FC<links & { url: string }> = ({ url, ...link }) => {
 	const copyHandler = async (text: string) => {
@@ -68,71 +71,65 @@ export const Card: FC<links & { url: string }> = ({ url, ...link }) => {
 				onClose={toggleDelete}
 				title="Delete short link"
 			>
-				<p className="text-center">
+				<p style={{ textAlign: "center" }}>
 					Are you sure you want to delete this short link?
 				</p>
-				<div className={cn("flex gap-2 justify-center mt-4")}>
-					<Button className={cn("w-full")} onClick={toggleDelete}>
+				<div className={cn(styles.delete_btn_container)}>
+					<Button style={{ width: "100%" }} onClick={toggleDelete}>
 						Cancel
 					</Button>
-					<Button className={cn("w-full")} onClick={onDelete}>
+					<Button style={{ width: "100%" }} onClick={onDelete}>
 						{loadDelete ? "Deleting..." : "Delete"}
 					</Button>
 				</div>
-				<div className="h-4 mt-2">
-					<p className="text-danger">{deleteError}</p>
+				<div
+					style={{
+						height: "1rem",
+						marginTop: "0.25rem",
+					}}
+				>
+					<ErrorMessage>{deleteError}</ErrorMessage>
 				</div>
 			</Model>
-			<div className={cn("border-2 border-neutral rounded w-full p-2")}>
-				<div
-					className={cn(
-						"text-xl text-neutral border-b-2 border-neutral mb-2 flex justify-between items-center"
-					)}
-				>
-					<p className="w-80 md:w-auto text-ellipsis">{link.title}</p>
-					<div className={cn("flex gap-2")}>
+			<div className={styles.item}>
+				<div className={cn(styles.header)}>
+					<p>{link.title}</p>
+					<div>
 						<button onClick={toggleModel}>
-							<FiEdit className="h-auto w-5" />
+							<FiEdit />
 						</button>
 						<button onClick={toggleDelete}>
-							<AiOutlineDelete className="h-auto w-6" />
+							<AiOutlineDelete />
 						</button>
 					</div>
 				</div>
-				<div className={cn("grid grid-cols-1 lg:grid-cols-2 mt-2")}>
-					<div className={cn("font-semibold")}>
-						<p className="flex gap-2 items-center">
-							Destination
-							<button onClick={() => copyHandler(url + "/" + link.endpoint)}>
-								<GoCopy className="h-auto w-5" />
-							</button>
-						</p>
-					</div>
+				<div className={cn(styles.content)}>
+					<div className={cn(styles.title)}>Destination</div>
+					<button onClick={() => copyHandler(url + "/" + link.endpoint)}>
+						<GoCopy />
+					</button>
 					<div
-						className={cn("text-ellipsis cursor-pointer")}
+						className={cn(styles.detail)}
 						onClick={() => copyHandler(link.endpoint)}
 					>
 						{link.endpoint}
 					</div>
-					<div className={cn("font-semibold")}>
-						<p className="flex gap-2 items-center">
-							Shorten form
-							<button onClick={() => copyHandler(url + "/" + link.entrypoint)}>
-								<GoCopy className="h-auto w-5" />
-							</button>
-						</p>
-					</div>
+					<div className={cn(styles.title)}>Shorten form</div>
+					<button onClick={() => copyHandler(url + "/" + link.entrypoint)}>
+						<GoCopy />
+					</button>
 					<div
-						className={cn("cursor-pointer")}
+						className={cn(styles.detail)}
 						onClick={() => copyHandler(url + "/" + link.entrypoint)}
 					>
 						{url + "/" + link.entrypoint}
 					</div>
-					<div className={cn("font-semibold")}>
+					<div className={cn(styles.title)}>
 						<p className="flex gap-2 items-center">Expiration date</p>
 					</div>
-					<div className={cn("cursor-pointer")}>
-						{format(link.expireAt, 'dd MMMM yyyy')}
+					<div></div>
+					<div className={cn(styles.detail)}>
+						{format(link.expireAt, "dd MMMM yyyy")}
 					</div>
 				</div>
 			</div>
@@ -151,7 +148,7 @@ const CardDisplayLink: FC<{ links: links[] }> = ({ links }) => {
 
 	if (!url)
 		return (
-			<div className="h-full flex justify-center items-center">
+			<div className={cn(styles.container)}>
 				<Loading />
 			</div>
 		);

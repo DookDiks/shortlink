@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import Button from "../components/button/Button";
-import Model from "../components/elements/Model";
+import Button from "@/components/button/Button";
+import Model from "@/components/elements/Model";
 import AddShortLinkForm from "@/containers/AddShortLinkForm";
 
 const AddLinkMobile = () => {
@@ -20,7 +20,7 @@ const AddLinkMobile = () => {
 			>
 				<AddShortLinkForm afrerSubmit={toggleModel} />
 			</Model>
-			<Button className="w-full" onClick={toggleModel}>
+			<Button style={{ width: "100%" }} onClick={toggleModel}>
 				Create short link
 			</Button>
 		</>

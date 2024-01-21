@@ -1,0 +1,27 @@
+@import "../variable";
+
+.nav {
+	border-bottom: 2px solid $primary-color;
+	padding: 0.5rem;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	position: fixed;
+	width: 100%;
+	color: $primary-color;
+	background: $secondary-color;
+	z-index: 1000px;
+}
+
+.nav_logo_container {
+	display: flex;
+	align-items: center;
+	color: $primary-color;
+	gap: 1rem;
+}
+
+.logo {
+	width: 3.5rem;
+	height: 3.5rem;
+	fill: $primary-color;
+}

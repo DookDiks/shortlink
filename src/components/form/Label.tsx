@@ -1,14 +1,11 @@
 import { cn } from "@dookdiks/utils";
 import { ComponentProps, forwardRef } from "react";
+import styles from "@/styles/component/form.module.scss";
 
 const Label = forwardRef<HTMLLabelElement, ComponentProps<"label">>(
 	({ className, ...restProps }, ref) => {
 		return (
-			<label
-				ref={ref}
-				className={cn("text-base text-neutral font-semibold", className)}
-				{...restProps}
-			/>
+			<label ref={ref} className={cn(styles.label, className)} {...restProps} />
 		);
 	}
 );
