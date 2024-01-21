@@ -8,8 +8,6 @@ import FormContainer from "@/components/form/Container";
 
 import Button from "@/components/button/Button";
 
-import { cn } from "@dookdiks/utils";
-
 import { useRouter } from "next/navigation";
 
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
@@ -26,6 +24,7 @@ export const addShortLinkFormSchema = z.object({
 	entrypoint: z
 		.string()
 		.regex(/^[^/]*$/, "'/' is not allow in this field")
+		.regex(/^[a-zA-Z0-9]*$/, "Only English and number characters are allowed")
 		.optional(),
 	expireDate: z
 		.date({
@@ -95,7 +94,11 @@ const AddShortLinkForm: FC<{ afrerSubmit?: () => void }> = ({
 
 	return (
 		<>
-			<form style={{ width: "100%" }} ref={formRef} onSubmit={handleSubmit(onSubmit)}>
+			<form
+				style={{ width: "100%" }}
+				ref={formRef}
+				onSubmit={handleSubmit(onSubmit)}
+			>
 				<FormContainer>
 					<Label htmlFor="endpoint">Destination</Label>
 					<Input
