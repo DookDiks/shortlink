@@ -33,9 +33,7 @@
 .passwordContainer {
 	position: relative;
 	width: fit-content;
-	@include md() {
-		width: 100%;
-	}
+	width: 100%;
 }
 
 .showPassword {
