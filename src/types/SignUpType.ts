@@ -1,13 +1,7 @@
 import { z } from "zod";
+import { MakeError } from "@/types/utils";
 
-export type SignUpError = {
-  success: boolean
-  errors?: {
-    email?: string
-    password?: string
-    confirmPassword?: string
-  }
-};
+export type SignUpError = MakeError<SignUp>;
 
 export const SignUpSchema = z
   .object({

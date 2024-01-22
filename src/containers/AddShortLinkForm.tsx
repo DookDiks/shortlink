@@ -8,153 +8,112 @@ import FormContainer from "@/components/form/Container";
 
 import Button from "@/components/button/Button";
 
-import { useRouter } from "next/navigation";
-
-import { useForm, SubmitHandler, Controller } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import * as z from "zod";
-import axios from "axios";
 import { FC, useRef, useState } from "react";
 import DateInput from "@/components/input/Date";
-import { addDays, format, addMonths } from "date-fns";
+import { format, addMonths } from "date-fns";
+import { ShortLinkType, ShortLink } from "@/types/ShortLinkType";
+import { setErrors, useError } from "@/utils/setErrors";
+import { createLink } from "@/actions/shortLink";
+import { useToseter } from "@/utils/useToaster";
 
-export const addShortLinkFormSchema = z.object({
-	title: z.string().max(50, "Title must be less than 50 characters").optional(),
-	endpoint: z.string().min(1, "Endpoint is required").url("Invalid URL"),
-	entrypoint: z
-		.string()
-		.regex(/^[^/]*$/, "'/' is not allow in this field")
-		.regex(/^[a-zA-Z0-9]*$/, "Only English and number characters are allowed")
-		.optional(),
-	expireDate: z
-		.date({
-			required_error: "Date is required",
-			invalid_type_error: "Format invalid",
-		})
-		.min(new Date(), "Date must be in the future"),
-});
-
-export type AddShortLinkFormSchema = z.infer<typeof addShortLinkFormSchema>;
+import { BiSolidError } from "react-icons/bi";
 
 const AddShortLinkForm: FC<{ afrerSubmit?: () => void }> = ({
 	afrerSubmit,
 }) => {
-	const {
-		register,
-		handleSubmit,
-		formState: { errors },
-		setError,
-		control,
-	} = useForm<AddShortLinkFormSchema>({
-		resolver: zodResolver(addShortLinkFormSchema),
-		defaultValues: {
-			expireDate: addMonths(new Date(), 1),
-		},
-	});
-
 	const [isSubmitting, setIsSubmitting] = useState(false);
+	const [error, setError] = useError<ShortLink>();
+
+	const { setToast, Toaster } = useToseter();
 
 	const formRef = useRef<HTMLFormElement>(null);
 
-	const router = useRouter();
-
-	const onSubmit: SubmitHandler<AddShortLinkFormSchema> = async (data) => {
+	const clientAction = async (formData: FormData) => {
 		setIsSubmitting(true);
-		try {
-			const axiosRes = await axios.post("/api/shortlink", data);
-			if (axiosRes.status === 200) {
-				formRef.current?.reset();
-				router.refresh();
-				afrerSubmit && afrerSubmit();
-			}
-		} catch (error) {
-			if (axios.isAxiosError<{ target: string; message: string }>(error)) {
-				const errorMessage = error.response?.data;
 
-				switch (errorMessage?.target) {
-					case "title":
-						setError("title", { message: errorMessage.message });
-						break;
-					case "endpoint":
-						setError("endpoint", { message: errorMessage.message });
-						break;
-					case "entrypoint":
-						setError("entrypoint", {
-							message: errorMessage.message,
-						});
-						break;
-					default:
-						alert(errorMessage?.message);
-						break;
-				}
+		const data = {
+			title: formData.get("title") as string,
+			endpoint: formData.get("endpoint") as string,
+			entrypoint: formData.get("entrypoint") as string,
+			expireDate: new Date(formData.get("expireDate") as string),
+		} as ShortLink;
+
+		const result = ShortLinkType.safeParse(data);
+
+		if (!result.success) {
+			setErrors(result.error.format(), setError);
+			return setIsSubmitting(false);
+		}
+
+		const serverError = await createLink(result.data);
+
+		if (!serverError.success) {
+			if (serverError?.type == "zod") {
+				setErrors(serverError.errors, setError);
+				return setIsSubmitting(false);
+			}
+
+			if (serverError.type == "server") {
+				setToast(serverError.errors as string, <BiSolidError />);
+				return setIsSubmitting(false);
 			}
 		}
+
+		afrerSubmit && afrerSubmit();
+
+		formRef.current?.reset();
+
 		setIsSubmitting(false);
 	};
 
 	return (
 		<>
-			<form
-				style={{ width: "100%" }}
-				ref={formRef}
-				onSubmit={handleSubmit(onSubmit)}
-			>
+			<Toaster />
+			<form action={clientAction} style={{ width: "100%" }} ref={formRef}>
 				<FormContainer>
 					<Label htmlFor="endpoint">Destination</Label>
 					<Input
 						style={{ width: "100%" }}
 						id="endpoint"
-						{...register("endpoint")}
+						name="endpoint"
 						placeholder="https://example.com/"
+						type="url"
+						inputMode="url"
 					/>
-					<ErrorMessage>{errors.endpoint?.message}</ErrorMessage>
+					<ErrorMessage>{error?.endpoint?._errors[0]}</ErrorMessage>
 				</FormContainer>
 				<FormContainer>
 					<Label htmlFor="title">Title ( optional )</Label>
 					<Input
 						style={{ width: "100%" }}
 						id="title"
-						{...register("title")}
+						name="title"
 						placeholder="Example site"
 					/>
-					<ErrorMessage>{errors.title?.message}</ErrorMessage>
+					<ErrorMessage>{error?.title?._errors[0]}</ErrorMessage>
 				</FormContainer>
 				<FormContainer>
 					<Label htmlFor="entrypoint">Search parameter ( optional )</Label>
 					<Input
 						style={{ width: "100%" }}
 						id="entrypoint"
-						{...register("entrypoint")}
+						name="entrypoint"
 						placeholder="example"
 					/>
-					<ErrorMessage>{errors.entrypoint?.message}</ErrorMessage>
+					<ErrorMessage>{error?.entrypoint?._errors[0]}</ErrorMessage>
 				</FormContainer>
 
-				<Controller
-					name="expireDate"
-					render={({
-						field: { onChange, name, value },
-						fieldState: { error },
-					}) => {
-						return (
-							<FormContainer>
-								<Label htmlFor="entrypoint">Expire date</Label>
-								<DateInput
-									required
-									name={name}
-									value={format(addDays(value, 0), "yyyy-MM-dd")}
-									minDate={addDays(new Date(), 1)}
-									id="entrypoint"
-									onChange={(date) => {
-										onChange(date);
-									}}
-								/>
-								<ErrorMessage>{error?.message}</ErrorMessage>
-							</FormContainer>
-						);
-					}}
-					control={control}
-				/>
+				<FormContainer>
+					<Label htmlFor="expireDate">Expire date</Label>
+					<DateInput
+						required
+						id="expireDate"
+						name="expireDate"
+						min={format(new Date(), "yyyy-MM-dd")}
+						defaultValue={format(addMonths(new Date(), 1), "yyyy-MM-dd")}
+					/>
+					<ErrorMessage>{error?.expireDate?._errors[0]}</ErrorMessage>
+				</FormContainer>
 				<Button
 					style={{ width: "100%", marginTop: "1.5rem" }}
 					type="submit"

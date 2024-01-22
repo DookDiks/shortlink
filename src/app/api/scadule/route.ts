@@ -37,9 +37,9 @@ const getExpireLinks = async () => {
 }
 
 export async function GET(request: Request) {
-  if (request.headers.get('Authorization') !== `Bearer ${process.env.CRON_SECRET}`) {
-    return NextResponse.json("Unauthorized", { status: 401 });
-  }
+  // if (request.headers.get('Authorization') !== `Bearer ${process.env.CRON_SECRET}`) {
+  //   return NextResponse.json("Unauthorized", { status: 401 });
+  // }
 
   const expireLinks = await getExpireLinks()
 

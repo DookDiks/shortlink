@@ -10,12 +10,12 @@ import Loading from "@/components/elements/Loading";
 import Model from "@/components/elements/Model";
 import LinkEditForm from "@/containers/LinkEditForm";
 import Button from "@/components/button/Button";
-import axios from "axios";
-import { useRouter } from "next/navigation";
 import { format } from "date-fns";
-import ErrorMessage from "@/components/form/ErrorMessage";
 
 import styles from "@/styles/container/linkDisplay.module.scss";
+import { deleteLink } from "@/actions/shortLink";
+import { useToseter } from "@/utils/useToaster";
+import { BiSolidError } from "react-icons/bi";
 
 export const Card: FC<links & { url: string }> = ({ url, ...link }) => {
 	const copyHandler = async (text: string) => {
@@ -28,37 +28,31 @@ export const Card: FC<links & { url: string }> = ({ url, ...link }) => {
 
 	const [showModel, setShowModel] = useState<boolean>(false);
 	const [showDelete, setShowDelete] = useState<boolean>(false);
-	const [deleteError, setDeleteError] = useState<string>("");
 	const [loadDelete, setLoadDelete] = useState(false);
-
-	const router = useRouter();
 
 	const toggleModel = () => {
 		setShowModel((prev) => !prev);
-		setDeleteError("");
 	};
 
 	const toggleDelete = () => {
 		setShowDelete((prev) => !prev);
-		setDeleteError("");
 	};
 
-	const onDelete = async () => {
+	const { setToast } = useToseter();
+
+	const clientAction = async () => {
 		setLoadDelete(true);
 		try {
-			const deleteRes = await axios.delete("/api/shortlink", {
-				params: { id: link.id },
-			});
-			if (deleteRes.status === 200) {
-				router.refresh();
-				toggleDelete();
-			}
+			await deleteLink(link.id);
+			return setLoadDelete(false);
 		} catch (error) {
-			if (axios.isAxiosError(error)) {
-				setDeleteError(error.response?.data);
+			if (error instanceof Error) {
+				setToast(error.message, <BiSolidError />);
+				return setLoadDelete(false);
 			}
+			setToast("Something went wrong!", <BiSolidError />);
+			return setLoadDelete(false);
 		}
-		setLoadDelete(false);
 	};
 
 	return (
@@ -78,17 +72,11 @@ export const Card: FC<links & { url: string }> = ({ url, ...link }) => {
 					<Button style={{ width: "100%" }} onClick={toggleDelete}>
 						Cancel
 					</Button>
-					<Button style={{ width: "100%" }} onClick={onDelete}>
-						{loadDelete ? "Deleting..." : "Delete"}
-					</Button>
-				</div>
-				<div
-					style={{
-						height: "1rem",
-						marginTop: "0.25rem",
-					}}
-				>
-					<ErrorMessage>{deleteError}</ErrorMessage>
+					<form style={{ width: "100%" }} action={clientAction}>
+						<Button style={{ width: "100%" }} type="submit">
+							{loadDelete ? "Deleting..." : "Delete"}
+						</Button>
+					</form>
 				</div>
 			</Model>
 			<div className={styles.item}>

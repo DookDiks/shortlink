@@ -2,23 +2,16 @@
 
 import { cn } from "@dookdiks/utils";
 import { ComponentProps, FC } from "react";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
 import styles from "@/styles/component/input.module.scss";
 
-const DateInput: FC<ComponentProps<typeof DatePicker>> = ({
+const DateInput: FC<ComponentProps<"input">> = ({
 	className,
 	...restProps
 }) => {
 	return (
-		<DatePicker
-			className={cn(
-				"rmdp-mobile",
-				styles.date,
-				styles.inputContainer,
-				className
-			)}
-			minDate={new Date()}
+		<input
+			type="date"
+			className={cn(styles.date, styles.inputContainer, className)}
 			{...restProps}
 		/>
 	);
