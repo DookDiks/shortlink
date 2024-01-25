@@ -129,18 +129,31 @@ const CardDisplayLink: FC<{ links: links[] }> = ({ links }) => {
 	const [url, setUrl] = useState<string>("");
 
 	useEffect(() => {
-		if (typeof window !== "undefined") {
-			setUrl(new URL(window.location.href).origin);
-		}
+			if (typeof window !== "undefined") {
+					setUrl(new URL(window.location.href).origin);
+			}
 	}, []);
 
 	if (!url)
-		return (
-			<div className={cn(styles.container)}>
-				<Loading />
-			</div>
-		);
-	return links.map((link) => <Card url={url} {...link} key={link.id} />);
+			return (
+					<div className={cn(styles.container)}>
+							<Loading />
+					</div>
+			);
+
+	const sortedLinks = links.sort((a, b) => {
+			return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+	});
+
+	return (
+			<>
+					{/* <div>link</div> */}
+					{/* TODO : create sort function */}
+					{sortedLinks.map((link) => (
+							<Card url={url} {...link} key={link.id} />
+					))}
+			</>
+	);
 };
 
 export default CardDisplayLink;
