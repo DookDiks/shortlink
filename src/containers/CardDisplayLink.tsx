@@ -58,7 +58,7 @@ export const Card: FC<links & { url: string }> = ({ url, ...link }) => {
 	return (
 		<>
 			<Model visible={showModel} onClose={toggleModel} title="Edit short link">
-				<LinkEditForm link={link} afrerSubmit={toggleModel} />
+				{showModel && <LinkEditForm link={link} afrerSubmit={toggleModel} />}
 			</Model>
 			<Model
 				visible={showDelete}
