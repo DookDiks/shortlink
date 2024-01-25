@@ -63,6 +63,7 @@
 		.detail {
 			text-overflow: ellipsis;
 			cursor: pointer;
+			word-break: break-all;
 		}
 	}
 }
