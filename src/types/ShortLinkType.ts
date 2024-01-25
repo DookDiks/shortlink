@@ -4,7 +4,7 @@ import { MakeError } from './utils';
 export type ShortLinkError = MakeError<ShortLink>;
 
 export const ShortLinkType = z.object({
-  title: z.string().max(50, "Title must be less than 50 characters").optional(),
+  title: z.string().max(150, "Title must be less than 150 characters").optional(),
   endpoint: z.string().min(1, "Endpoint is required").url("Invalid URL"),
   entrypoint: z
     .string()
@@ -22,7 +22,7 @@ export const ShortLinkType = z.object({
 export type ShortLink = z.infer<typeof ShortLinkType>;
 
 export const UpdateShortLinkType = z.object({
-  title: z.string().max(50, "Title must be less than 50 characters"),
+  title: z.string().max(150, "Title must be less than 150 characters"),
   endpoint: z.string().min(1, "Endpoint is required").url("Invalid URL").min(1, "Endpoint is required"),
   entrypoint: z
     .string()
