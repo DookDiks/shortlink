@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { MakeError } from './utils';
+import { addDays } from "date-fns";
 
 export type ShortLinkError = MakeError<ShortLink>;
 
@@ -34,7 +35,7 @@ export const UpdateShortLinkType = z.object({
       required_error: "Date is required",
       invalid_type_error: "Format invalid",
     })
-    .min(new Date(), "Date must be in the future"),
+    .min(new Date(addDays(new Date(), -1)), "Date must be in the future"),
 });
 
 export type UpdateShortLink = z.infer<typeof UpdateShortLinkType>;
