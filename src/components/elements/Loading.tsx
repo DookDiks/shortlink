@@ -1,8 +1,8 @@
-import styles from "@/styles/component/loading.module.scss";
+
 
 const Loading = () => {
 	return (
-		<div className={styles.loading}>
+		<div className={""}>
 			<span>Loading...</span>
 			<div />
 			<div />

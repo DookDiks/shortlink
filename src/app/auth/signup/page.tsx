@@ -2,7 +2,6 @@ import Logo from "@/components/logo/DookDik";
 import { cn } from "@dookdiks/utils";
 import SetUpForm from "@/containers/auth/SignUpForm";
 import { Metadata } from "next";
-import styles from "@/styles/pages/authPage.module.scss";
 
 export const metadata: Metadata = {
 	title: "DookDiks - Sign up",
@@ -11,8 +10,12 @@ export const metadata: Metadata = {
 const SignUpPage = () => {
 	return (
 		<>
-			<main className={cn(styles.main)}>
-				<Logo className={cn(styles.logo)} />
+			<main
+				className={cn(
+					"flex flex-col justify-center items-center min-h-screen h-screen gap-4"
+				)}
+			>
+				<Logo className={cn("fill-secondary h-auto w-64 mb-16")} />
 				<SetUpForm />
 			</main>
 		</>

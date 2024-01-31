@@ -1,5 +1,3 @@
-import { getSession } from "@/utils/session";
-
 export default async function DashboardLayout({
 	children, // will be a page or nested layout
 }: {

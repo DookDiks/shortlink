@@ -1,13 +1,12 @@
 "use server"
 
-import { ShortLink, ShortLinkError, ShortLinkType, UpdateShortLink, UpdateShortLinkType } from "@/types/ShortLinkType"
-import { } from "@/types/ShortLinkType";
-import { getSession } from "@/utils/session";
-import { prisma } from "@/lib/prisma";
-import { generateRandomString } from "@/utils/generateRandomString";
-import { ServerError } from "@/types/utils";
-import { revalidatePath } from "next/cache";
-
+import {ShortLink, ShortLinkError, ShortLinkType, UpdateShortLink, UpdateShortLinkType} from "@/types/ShortLinkType"
+import {} from "@/types/ShortLinkType";
+import {getSession} from "@/utils/session";
+import {prisma} from "@/lib/prisma";
+import {generateRandomString} from "@/utils/generateRandomString";
+import {ServerError} from "@/types/utils";
+import {revalidatePath} from "next/cache";
 
 
 type CreateLink = (data: ShortLink) => Promise<ServerError<ShortLinkError>>
@@ -108,7 +107,7 @@ export const updateLink: UpdateLink = async (data) => {
 
   try {
     await prisma.links.update({
-      where: { id: listId },
+      where: {id: listId},
       data: {
         userId: session.id,
         endpoint: data.endpoint,
@@ -138,9 +137,9 @@ export const updateLink: UpdateLink = async (data) => {
   }
 }
 
-type DeleteLink = (id: string) => Promise<ServerError<ShortLinkError>>
+type DeleteLink = (idList: string[]) => Promise<ServerError<ShortLinkError>>
 
-export const deleteLink: DeleteLink = async (id: string) => {
+export const deleteLink: DeleteLink = async (idList) => {
   const session = await getSession()
 
   if (!session.isLogged) {
@@ -148,8 +147,12 @@ export const deleteLink: DeleteLink = async (id: string) => {
   }
 
   try {
-    await prisma.links.delete({
-      where: { id }
+    await prisma.links.deleteMany({
+      where: {
+        id: {
+          in: idList
+        }
+      }
     })
 
     revalidatePath("/")

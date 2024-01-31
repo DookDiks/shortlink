@@ -9,20 +9,21 @@ const config: Config = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['Noto Sans Thai', "Outfit", "Sarabun", 'sans-serif']
+        sans: ["var(--font-maitree)", "var(--font-outfit)"]
       },
       height: {
         screen: '100dvh',
-        "min-h-screen":"100dvh"
+        "min-h-screen": "100dvh"
       },
       colors: {
-        "neutral": "#282B27",
-        "neutral-light": "#3C403A",
+        "primary": "#F5F5F5",
+        "primary-highlight": "#fafafa",
+        "secondary": "#282B27",
+        "secondary-highlight": "#3C403A",
         "success": "#9fde1a",
         "caution": "#e8af36",
         "danger": "#e2592e",
         "info": "#046fd1",
-        "primary": "#F5F5F5",
         "indigo": "#1b3386",
         "highlight": "#5B8e7d",
         "": "",

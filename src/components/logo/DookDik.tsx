@@ -1,4 +1,3 @@
-import DookDik from "@/../public/DookDiksLogo.svg";
 import { ComponentProps, FC } from "react";
 
 const Logo: FC<ComponentProps<"svg">> = ({ className, ...restProps }) => {

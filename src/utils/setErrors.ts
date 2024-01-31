@@ -1,4 +1,4 @@
-import { MakeZodError } from './../types/utils';
+import { MakeZodError } from '@/types/utils';
 import { Dispatch, SetStateAction, useState } from 'react';
 import { z } from "zod";
 

@@ -2,7 +2,6 @@
 
 import { cn } from "@dookdiks/utils";
 import { ComponentProps, FC } from "react";
-import styles from "@/styles/component/input.module.scss";
 
 const DateInput: FC<ComponentProps<"input">> = ({
 	className,
@@ -11,7 +10,10 @@ const DateInput: FC<ComponentProps<"input">> = ({
 	return (
 		<input
 			type="date"
-			className={cn(styles.date, styles.inputContainer, className)}
+			className={cn(
+				"border-2 border-secondary bg-primary rounded p-2 focus:outline-secondary-highlight lg:min-w-96 text-base min-w-72 w-full lg:w-fit",
+				className
+			)}
 			{...restProps}
 		/>
 	);

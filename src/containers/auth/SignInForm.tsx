@@ -16,8 +16,6 @@ import { signIn } from "@/actions/authAction";
 import { SignIn, SignInError, SignInSchema } from "@/types/SignInType";
 import { redirect } from "next/navigation";
 
-import styles from "@/styles/container/auth.module.scss";
-
 const SignInForm = () => {
 	const [error, setError] = useState<SignInError>();
 	const [success, setSuccess] = useState(true);
@@ -58,30 +56,24 @@ const SignInForm = () => {
 	};
 
 	return (
-		<form action={clientAction} className={cn(styles.formContainer)}>
+		<form
+			action={clientAction}
+			className={cn("flex flex-col gap-2 justify-center items-center")}
+		>
 			<FormContainer>
-				<Label htmlFor="email">Email</Label>
 				<Input type="email" name="email" id="email" placeholder="Email" />
 				<ErrorMessage>{error?.errors?.email}</ErrorMessage>
 			</FormContainer>
 			<FormContainer>
-				<Label htmlFor="password">Password</Label>
 				<Password name="password" id="password" placeholder="Password" />
 				<ErrorMessage>{error?.errors?.password}</ErrorMessage>
 			</FormContainer>
 			{/* TODO - change disable */}
-			<Button
-				disabled={!success}
-				type="submit"
-				style={{
-					width: "100%",
-					marginTop: "1rem",
-				}}
-			>
+			<Button disabled={!success} type="submit">
 				{success ? "Sign in" : "Signing in..."}
 			</Button>
-			<div className={cn(styles.formLink)}>
-				<Link href={"/auth/signup"}>
+			<div className={cn("flex justify-center items-center")}>
+				<Link href={"/auth/signup"} className="text-sm">
 					Do not have an account <span>click</span> here to sign up
 				</Link>
 			</div>

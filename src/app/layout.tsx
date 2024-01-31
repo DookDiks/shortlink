@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
-import { Noto_Sans_Thai, Outfit, Sarabun } from "next/font/google";
-import "../styles/globals.scss";
+import "../styles/globals.css";
 import { cn } from "@dookdiks/utils";
+
+import localFont from "next/font/local";
 
 export const metadata: Metadata = {
 	title: "DookDiks - Shorten links",
@@ -9,23 +10,34 @@ export const metadata: Metadata = {
 		"This web application is used to shorten links. It is built with Next.js and TailwindCSS.",
 };
 
-const notoSansThai = Noto_Sans_Thai({
-	subsets: ["latin", "thai"],
-	display: "auto",
-	variable: "--font-noto-sans-thai",
-});
-
-const outfit = Outfit({
-	subsets: ["latin", "latin-ext"],
-	display: "auto",
-	variable: "--font-outfit",
-});
-
-const sarabun = Sarabun({
-	weight: "400",
-	subsets: ["latin", "latin-ext", "thai"],
-	display: "auto",
-	variable: "--font-sarabun",
+const maiTree = localFont({
+	src: [
+		{
+			path: "../styles/fonts/Maitree/Maitree-Light.ttf",
+			weight: "100",
+		},
+		{
+			path: "../styles/fonts/Maitree/Maitree-Light.ttf",
+			weight: "200",
+		},
+		{
+			path: "../styles/fonts/Maitree/Maitree-Medium.ttf",
+			weight: "300",
+		},
+		{
+			path: "../styles/fonts/Maitree/Maitree-Regular.ttf",
+			weight: "400",
+		},
+		{
+			path: "../styles/fonts/Maitree/Maitree-SemiBold.ttf",
+			weight: "500",
+		},
+		{
+			path: "../styles/fonts/Maitree/Maitree-Bold.ttf",
+			weight: "600",
+		},
+	],
+	variable: "--font-maitree",
 });
 
 export default function RootLayout({
@@ -34,14 +46,7 @@ export default function RootLayout({
 	children: React.ReactNode;
 }) {
 	return (
-		<html
-			lang="en"
-			className={cn(
-				notoSansThai.className,
-				outfit.className,
-				sarabun.className
-			)}
-		>
+		<html lang="en" className={cn(maiTree.className, "bg-primary")}>
 			<body>{children}</body>
 		</html>
 	);

@@ -1,5 +1,4 @@
 import { ComponentProps, forwardRef } from "react";
-import styles from "@/styles/component/button.module.scss";
 import { cn } from "@dookdiks/utils";
 
 const Button = forwardRef<HTMLButtonElement, ComponentProps<"button">>(
@@ -7,7 +6,10 @@ const Button = forwardRef<HTMLButtonElement, ComponentProps<"button">>(
 		return (
 			<button
 				ref={ref}
-				className={cn(styles.button, className)}
+				className={cn(
+					"p-2 w-full text-primary bg-secondary hover:bg-secondary-highlight rounded ease-in-out duration-200",
+					className
+				)}
 				{...restProps}
 			/>
 		);

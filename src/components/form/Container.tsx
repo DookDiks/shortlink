@@ -1,6 +1,5 @@
 import { cn } from "@dookdiks/utils";
 import { FC, ComponentProps } from "react";
-import styles from "@/styles/component/form.module.scss";
 
 const FormContainer: FC<ComponentProps<"div">> = ({
 	className,
@@ -8,7 +7,7 @@ const FormContainer: FC<ComponentProps<"div">> = ({
 }) => {
 	return (
 		<>
-			<div className={cn(styles.container, className)} {...restProps} />
+			<div className={cn("", className)} {...restProps} />
 		</>
 	);
 };
